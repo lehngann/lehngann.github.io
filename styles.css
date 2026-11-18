@@ -1,0 +1,272 @@
+@import url('https://fonts.googleapis.com/css2?family=Beth+Ellen&family=Homemade+Apple&display=swap');
+
+@font-face {
+  font-family: "ABC Areal";
+  src: url("./fonts/ABCArealSuperfamilyVariable.woff2") format("woff2");
+  font-weight: 400 700; /* variable font: allows all weights */
+    font-style: oblique 0deg 12deg;
+}
+
+/* ---------- Shared settings ---------- */
+:root {
+  --side-pad: clamp(12px, 2vw, 24px); /* same padding for the title (left) and the menu (right), shrinks with the screen */
+}
+
+/* ---------- Base ---------- */
+* {
+  box-sizing: border-box;
+}
+
+/* page is exactly one screen tall, header on top, two sides below */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "ABC Areal";
+  font-variation-settings: "MONO" 100;
+  font-size: clamp(0.875rem, 0.7rem + 0.4vw, 1.125rem); /* body text: min, fluid, max */
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* the page itself never scrolls */
+}
+
+/* ---------- Header ---------- */
+header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  align-items: start;
+  flex: none; /* header keeps its height */
+}
+
+header h1 {
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0;
+  padding: 16px var(--side-pad) 8px;
+  font-family: "Beth Ellen", cursive;
+  font-size: clamp(1.5rem, 0.7rem + 1.8vw, 2rem); /* title: min, fluid, max */
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1.3;
+}
+header h1 a,
+header h1 a:link,
+header h1 a:visited {
+  color: #000;
+  text-decoration: none;
+}
+
+/* One continuous thin line across the whole page; the vertical line starts right under it */
+header hr {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-top: 1px solid #000;
+}
+
+/* Menu pushed to the right edge, same padding as the title */
+header nav {
+  grid-column: 2;
+  grid-row: 1;
+  padding: 24px var(--side-pad) 0;
+}
+
+nav ul {
+  display: flex;
+  gap: clamp(24px, 1.7vw, 24px); /* space between menu buttons */
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav a {
+  color: #000;
+  font-size: clamp(1rem, 0.6rem + 1.1vw, 1.5rem); /* menu: min, fluid, max */
+  font-weight: normal;
+  text-decoration: none;
+}
+
+/* Highlight for the current page */
+nav a.active,
+nav a:hover {
+  background: #cc88bb;
+}
+
+/* ---------- Two-sided layout (Archive + About) ---------- */
+.layout {
+  flex: 1;
+  min-height: 0; /* lets the sides scroll instead of growing */
+  display: grid;
+  grid-template-columns: 0.5fr 1.5fr;
+}
+
+.side {
+  height: 100%;
+  overflow-y: auto; /* each side scrolls independently */
+}
+
+.left {
+  padding: 24px;
+  border-right: 1px solid #000; /* the vertical line */
+}
+
+.left h2 {
+  margin: 0 0 8px;
+  font-size: clamp(1.25rem, 0.9rem + 1.2vw, 1.75rem);
+  font-weight: 400;
+}
+
+.left p {
+  margin: 0 0 32px;
+}
+
+.right {
+  padding: 0 24px 12px; /* no top padding so the sticky header works */
+}
+
+/* (About page) */
+.right p {
+  margin: 0;
+  padding-top: 24px;
+  max-width: 70ch;
+}
+
+/* ---------- Filters ---------- */
+.filters a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #000;
+  text-decoration: none;
+}
+.filters,
+.filters li {
+  list-style: none;
+}
+
+.filters {
+  margin: 0;
+  padding: 0;
+}
+
+/* Not chosen: small empty circle */
+.filters a::before {
+  content: "";
+  flex: none;
+  width: 0.9em;
+  height: 0.9em;
+  border: 1px solid #000;
+  border-radius: 50%;
+  background: transparent;
+}
+
+/* Chosen: circle with a smaller filled circle inside */
+.filters a.selected::before {
+  background: #000;
+  box-shadow: inset 0 0 0 0.18em #fff;
+}
+
+/* ---------- Archive rows ---------- */
+.entry,
+.entry-header {
+  display: grid;
+  grid-template-columns: 4fr 2fr 1fr; /* Title+description | Artist | Country */
+  gap: 30px;
+  padding: 12px 0;
+}
+
+.entry {
+  border-bottom: 1px solid #ddd;
+}
+
+.entry-header {
+  font-weight: bold;
+  position: sticky; /* column titles stay visible while scrolling */
+  top: 0;
+  background: #fff;
+  border-bottom: 1px solid #000;
+}
+
+.entry .title {
+  display: block;
+  font-weight: bold;
+}
+
+.entry .desc {
+  display: block;
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #555;
+}
+
+/* ---------- Brand name inside the About paragraph ---------- */
+.brand-name {
+  font-family: "Beth Ellen", cursive;
+  font-weight: 500;
+  font-size: 1.5em;
+}
+
+/* ---------- Interactive screens ---------- */
+@media (max-width: 900px) {
+  header {
+    grid-template-columns: 1fr;
+  }
+
+  header h1,
+  header nav,
+  header hr {
+    grid-column: 1;
+  }
+
+  header nav {
+    grid-row: 2;
+  }
+
+  header hr {
+    grid-row: 3;
+  }
+
+  nav ul {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 700px) {
+  /* drop the two scrolling sides and let the page scroll normally */
+  html,
+  body {
+    height: auto;
+    overflow: auto;
+  }
+
+  .layout {
+    display: block;
+  }
+
+  .side {
+    height: auto;
+    overflow: visible;
+  }
+
+  .left {
+    border-right: 0;
+    border-bottom: 1px solid #000;
+  }
+}
+
+@media (max-width: 600px) {
+  .entry {
+    grid-template-columns: 1fr;
+  }
+
+  .entry-header {
+    display: none; /* column titles don't make sense when stacked */
+  }
+}
