@@ -201,7 +201,7 @@ nav a:hover {
 
 .entry .desc {
   display: block;
-  font-weight: bold;
+  font-weight: normal;
   font-size: 0.9em;
   color: #555;
 }
