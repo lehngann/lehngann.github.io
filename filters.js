@@ -18,27 +18,25 @@ function render() {
 
   // 2. Show or hide each entry
   entries.forEach((entry) => {
-    const categories = (entry.dataset.category || '').split(/\s+/);
-    const show =
-      chosen.has('all') || categories.some((category) => chosen.has(category));
+    const categories = (entry.dataset.category || '').split(' ');
+    const show = chosen.has('all') || categories.some((c) => chosen.has(c));
     entry.style.display = show ? '' : 'none';
+    if (!show) entry.classList.remove('open'); // close hidden entries
   });
 }
 
 function toggleFilter(filter) {
   if (filter === 'all') {
-    // "all" resets everything
     chosen = new Set(['all']);
   } else {
-    chosen.delete('all'); // picking a specific filter turns "all" off
+    chosen.delete('all');
 
     if (chosen.has(filter)) {
-      chosen.delete(filter); // click again to switch it off
+      chosen.delete(filter);
     } else {
       chosen.add(filter);
     }
 
-    // If nothing is left chosen, go back to showing everything
     if (chosen.size === 0) {
       chosen.add('all');
     }
@@ -48,9 +46,33 @@ function toggleFilter(filter) {
 
 filterLinks.forEach((link) => {
   link.addEventListener('click', (event) => {
-    event.preventDefault(); // stop the link from jumping to the top of the page
+    event.preventDefault();
     toggleFilter(link.dataset.filter);
   });
 });
 
+// Click a title to show its description (one open at a time)
+entries.forEach((entry) => {
+  entry.querySelector('.title').addEventListener('click', () => {
+    const isOpen = entry.classList.contains('open');
+    entries.forEach((e) => e.classList.remove('open'));
+    if (!isOpen) entry.classList.add('open');
+  });
+});
+
 render();
+
+// Open the entry named in the link, e.g. archive.html#bao-boc
+// (used by the books on the landing page). The id is on each .entry in archive.html.
+function openFromLink() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  if (!id) return;
+  const entry = document.getElementById(id);
+  if (!entry || !entry.classList.contains('entry')) return;
+  if (entry.style.display === 'none') toggleFilter('all'); // make sure a filter isn't hiding it
+  entries.forEach((e) => e.classList.remove('open'));
+  entry.classList.add('open');
+  entry.scrollIntoView({ block: 'start' });
+}
+openFromLink();
+window.addEventListener('hashchange', openFromLink);

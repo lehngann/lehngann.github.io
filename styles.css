@@ -41,6 +41,9 @@ header {
   grid-template-rows: auto auto;
   align-items: start;
   flex: none; /* header keeps its height */
+  position: relative; /* lets z-index work */
+  z-index: 20;        /* sits above the arrows (10) and the books (5) */
+  background: #fff;   /* hides the arrows behind it; match your page colour */
 }
 
 header h1 {
@@ -96,7 +99,7 @@ nav a {
 /* Highlight for the current page */
 nav a.active,
 nav a:hover {
-  background: #cc88bb;
+  color: #c03910
 }
 
 /* ---------- Two-sided layout (Archive + About) ---------- */
@@ -177,13 +180,14 @@ nav a:hover {
 .entry,
 .entry-header {
   display: grid;
-  grid-template-columns: 4fr 2fr 1fr; /* Title+description | Artist | Country */
-  gap: 30px;
+  grid-template-columns: 4fr 2fr 1.5fr; /* Title | Artist | Publisher */
+  gap: 0 30px; /* no row gap, 30px between columns */
   padding: 12px 0;
 }
 
 .entry {
   border-bottom: 1px solid #ddd;
+  scroll-margin-top: 3em; /* when a link jumps to an entry, keep it clear of the sticky column titles */
 }
 
 .entry-header {
@@ -197,13 +201,38 @@ nav a:hover {
 .entry .title {
   display: block;
   font-weight: bold;
+  cursor: pointer;
+}
+.entry .title:hover {
+  text-decoration: underline;
+}
+
+/* Description block: hidden until the title is clicked,
+   spans all three columns, optional image on the left */
+.entry .details {
+  display: none;
+  grid-column: 1 / -1; /* span title, artist and publisher columns */
+  margin-top: 12px;
+  gap: 16px;
+  align-items: stretch; /* image height follows the text height */
+}
+
+.entry.open .details {
+  display: flex;
+}
+
+.entry .details img {
+  width: 140px;
+  min-height: 90px;
+  object-fit: cover; /* crops instead of squashing */
+  flex: none;
 }
 
 .entry .desc {
-  display: block;
+  font-size: 0.8em; /* smaller than the title */
   font-weight: normal;
-  font-size: 0.9em;
-  color: #555;
+  line-height: 1.5;
+  max-width: 60ch;
 }
 
 /* ---------- Brand name inside the About paragraph ---------- */
@@ -264,9 +293,20 @@ nav a:hover {
 @media (max-width: 600px) {
   .entry {
     grid-template-columns: 1fr;
+    gap: 4px 0;
   }
 
   .entry-header {
     display: none; /* column titles don't make sense when stacked */
+  }
+
+  /* image stacks on top of the text on phones */
+  .entry .details {
+    flex-direction: column;
+  }
+
+  .entry .details img {
+    width: 100%;
+    max-height: 200px;
   }
 }

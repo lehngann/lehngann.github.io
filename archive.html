@@ -6,12 +6,17 @@
 <title>O.S - Archive</title>
 <link rel="stylesheet" href="styles.css">
 <script src="filters.js" defer></script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
 </head>
 
 <body>
 
 <header>
-  <h1><a href="OS.html">occasionally sourced</a></h1>
+  <h1><a href="index.html">occasionally sourced</a></h1>
   <hr>
   <nav>
     <ul>
@@ -47,80 +52,102 @@
     <div class="entry-header">
       <div>Title</div>
       <div>Artist/Writer</div>
-      <div>Country</div>
+      <div>Publisher</div>
     </div>
 
-    <div class="entry" data-category="photography">
-      <div>
-        <span class="title">Bao Bọc</span>
-        <span class="desc">Danh's first zine is a personal perspective on a business household and aims to resonate with those who have grown up thanks to small businesses.</span>
-      </div>
-      <div>Cong Danh</div>
-       <div>Vietnam</div>
-    </div>
+    <div class="entry" id="bao-boc" data-category="photography">
+  <div><span class="title">Bao Bọc</span></div>
+  <div>Cong Danh</div>
+  <div>artificial flavours press</div>
 
-    <div class="entry" data-category="text-focused">
-      <div>
-        <span class="title">i hate the fact that</span>
-        <span class="desc">an extension zine born from real-time thoughts processing a recently ended relationship. Words that have been said, while feelings remain.</span>
-      </div>
-      <div>Ngoc Vo</div>
-       <div>Vietnam</div>
+  <div class="details">
+    <br>
+    <img src="images/bao-boc.png" alt="Bao Bọc">
+    <div class="desc">Danh's first zine is a personal perspective on a business household and aims to resonate with those who have grown up thanks to small businesses.
+      <br>
+      <br>
+      Based in: Vietnam
+      <br>Translations:
     </div>
+  </div>
+</div>
 
-    <div class="entry" data-category="text-focused">
-      <div>
-        <span class="title">No Ghost No Shell</span>
-        <span class="desc">this little zine compiles a text that examines NPC streaming through the lens of digital embodiment and cyberfeminism by introducing the figure of the “witch” — a new digital woman emerging from the NPC streaming phenomenon.</span>
-      </div>
-      <div>Vu Dieu Huong</div>
-       <div>Vietnam</div>
-    </div>
+    <div class="entry" id="i-hate-the-fact-that" data-category="text-focused">
+  <div><span class="title">i hate the fact that</span></div>
+  <div>Ngoc Vo</div>
+  <div>Vietnam</div>
 
-    <div class="entry" data-category="text-focused art" >
-      <div>
-        <span class="title">Pandora of Our Beloved Sea</span>
-        <span class="desc">this zine shall be a lucid dream where you experience the land of Ninh Thuan on the cell level.</span>
-      </div>
-      <div>Ngoc Vo & Yui Nguyen</div>
-       <div>Vietnam</div>
-    </div>
+  <div class="details">
+    <img src="images/i-hate-the-fact-that.png" alt="i hate the fact that zine">
+    <div class="desc">an extension zine born from real-time thoughts processing a recently ended relationship. Words that have been said, while feelings remain.</div>
+  </div>
+</div>
 
-     <div class="entry">
-      <div>
-        <span class="title">Digital Land</span>
-        <span class="desc">A zine about reclaiming our technology from controling corportions.</span>
-      </div>
-      <div>the.bluish.tram</div>
-       <div>Vietnam</div>
-    </div>
+    <div class="entry" id="no-ghost-no-shell" data-category="text-focused">
+  <div><span class="title">No Ghost No Shell</span></div>
+  <div>Vu Dieu Huong</div>
+  <div>Vietnam</div>
 
-      <div class="entry">
-      <div>
-        <span class="title">Spellshaper</span>
-        <span class="desc">A fanzine about Magic: the Gathering and lessons from 10 years ò playing. Each copy comes with a random Commander.</span>
-      </div>
-      <div>the.bluish.tram</div>
-       <div>Vietnam</div>
-    </div>
+  <div class="details">
+    <img src="images/no-ghost-no-shell.png" alt="No Ghost No Shell zine">
+    <div class="desc">this little zine compiles a text that examines NPC streaming through the lens of digital embodiment and cyberfeminism by introducing the figure of the “witch” — a new digital woman emerging from the NPC streaming phenomenon.</div>
+  </div>
+</div>
 
-      <div class="entry">
-      <div>
-        <span class="title">Riso Obscura</span>
-        <span class="desc">A Risograph zine that guides the reader from making their Risograph print - color separation and distributing their print in Vietnam.</span>
-      </div>
-      <div>gunpointwedding</div>
-       <div>Vietnam</div>
-    </div>
+    <div class="entry" id="pandora-of-our-beloved-sea" data-category="text-focused art">
+  <div><span class="title">Pandora of Our Beloved Sea</span></div>
+  <div>Ngoc Vo & Yui Nguyen</div>
+  <div>Vietnam</div>
 
-      <div class="entry">
-      <div>
-        <span class="title">Please Don't Look at Me</span>
-        <span class="desc">i sat the past few days wondering if i should ever share this zine. i made this as something for me to read and let go but unsure if i can. 'Please Don't Look At Me' is a story i wrote about trust, cutting strawberries for yogurt, betrayal, waiting and leaving.</span>
-      </div>
-      <div>gunpointwedding</div>
-       <div>Vietnam</div>
-    </div>
+  <div class="details">
+    <img src="images/pandora-of-our-beloved-sea.png" alt="Pandora of Our Beloved Sea zine">
+    <div class="desc">this zine shall be a lucid dream where you experience the land of Ninh Thuan on the cell level.</div>
+  </div>
+</div>
+
+     <div class="entry" id="digital-land">
+  <div><span class="title">Digital Land</span></div>
+  <div>the.bluish.tram</div>
+  <div>Vietnam</div>
+
+  <div class="details">
+    <img src="images/digital-land.png" alt="Digital Land zine">
+    <div class="desc">A zine about reclaiming our technology from controling corportions.</div>
+  </div>
+</div>
+
+      <div class="entry" id="spellshaper">
+  <div><span class="title">Spellshaper</span></div>
+  <div>the.bluish.tram</div>
+  <div>Vietnam</div>
+
+  <div class="details">
+    <img src="images/spellshaper.png" alt="Spellshaper zine">
+    <div class="desc">A fanzine about Magic: the Gathering and lessons from 10 years ò playing. Each copy comes with a random Commander.</div>
+  </div>
+</div>
+
+      <div class="entry" id="riso-obscura">
+  <div><span class="title">Riso Obscura</span></div>
+  <div>gunpointwedding</div>
+  <div>Vietnam</div>
+
+  <div class="details">
+    <img src="images/riso-obscura.png" alt="Riso Obscura zine">
+    <div class="desc">A Risograph zine that guides the reader from making their Risograph print - color separation and distributing their print in Vietnam.</div>
+  </div>
+</div>
+
+      <div class="entry" id="please-dont-look-at-me">
+  <div><span class="title">Please Don't Look at Me</span></div>
+  <div>gunpointwedding</div>
+  <div>Vietnam</div>
+
+  <div class="details">
+    <img src="images/please-dont-look-at-me.png" alt="Please Don't Look at Me zine">
+    <div class="desc">i sat the past few days wondering if i should ever share this zine. i made this as something for me to read and let go but unsure if i can. 'Please Don't Look At Me' is a story i wrote about trust, cutting strawberries for yogurt, betrayal, waiting and leaving.</div>
+  </div>
+</div>
 
   </main>
 
