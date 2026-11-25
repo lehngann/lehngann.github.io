@@ -139,7 +139,8 @@ nav a:hover {
 .right p {
   margin: 0;
   padding-top: 24px;
-  max-width: 70ch;
+  padding-right: 24px; /* same as the Collaborators descriptions */
+  max-width: none;     /* run all the way to the right */
 }
 
 /* ---------- Filters ---------- */
@@ -278,16 +279,20 @@ nav a:hover {
 }
 
 /* ---------- Brand name inside the About paragraph ---------- */
+/* line-height: 0 stops the bigger handwritten font from pushing its line
+   down, so there's no extra gap above/below the line it sits in */
 .brand-name {
   font-family: "Beth Ellen", cursive;
   font-weight: 500;
   font-size: 1.5em;
+  line-height: 0;
 }
 
 .brand-name-small {
   font-family: "Beth Ellen", cursive;
   font-weight: 500;
   font-size: 1.3em;
+  line-height: 0;
 }
 
 /* ---------- Interactive screens ---------- */
