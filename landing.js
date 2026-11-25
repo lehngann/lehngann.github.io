@@ -8,27 +8,64 @@
 // - The canvas has pointer-events: none, so everything underneath stays clickable.
 
 // ---------- Your books: edit this list ----------
+// Every title in the archive. Each visit shows a random selection of SHOW_COUNT of them.
 // img  = the cover image in your images/ folder
-// href = archive.html#ID, where ID is the id you give that book's entry in archive.html
+// href = archive.html#ID, where ID is the id of that book's entry in archive.html
 const BOOKS = [
-  { img: 'images/bao-boc.png',              href: 'archive.html#bao-boc',              title: 'Bao Bọc' },
-  { img: 'images/i-hate-the-fact-that.png', href: 'archive.html#i-hate-the-fact-that', title: 'i hate the fact that' },
-  { img: 'images/book-3.png',               href: 'archive.html#book-3',               title: 'Book 3' },
-  { img: 'images/book-4.png',               href: 'archive.html#book-4',               title: 'Book 4' },
-  { img: 'images/book-5.png',               href: 'archive.html#book-5',               title: 'Book 5' },
+  { img: 'images/bao-boc.png',                href: 'archive.html#bao-boc',                     title: 'Bao Bọc' },
+  { img: 'images/i-hate-the-fact-that.png',   href: 'archive.html#i-hate-the-fact-that',        title: 'i hate the fact that' },
+  { img: 'images/no-ghost-no-shell.png',      href: 'archive.html#no-ghost-no-shell',           title: 'No Ghost No Shell' },
+  { img: 'images/pandora.png',                href: 'archive.html#pandora-of-our-beloved-sea',  title: 'Pandora of Our Beloved Sea' },
+  { img: 'images/digital-land.png',           href: 'archive.html#reclaiming-our-digital-land', title: 'Reclaiming Our Digital Land' },
+  { img: 'images/spellshaper.png',            href: 'archive.html#spellshaper',                 title: 'Spellshaper' },
+  { img: 'images/out-of-time.png',            href: 'archive.html#out-of-time',                 title: 'Out of Time' },
+  { img: 'images/riso-obscura.png',           href: 'archive.html#riso-obscura',                title: 'Riso Obscura' },
+  { img: 'images/please-dont-look-at-me.png', href: 'archive.html#please-dont-look-at-me',      title: "Please Don't Look at Me" },
 ];
+
+// ---------- Shuffle: pick a different selection of books on every visit ----------
+const SHOW_COUNT = 8; // how many books are on the page at once
+
+function shuffle(list) { // returns a shuffled copy (Fisher–Yates)
+  const out = list.slice();
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+function pickBooks() {
+  let last = '';
+  try { last = localStorage.getItem('landing-books') || ''; } catch (e) {}
+  let pick, key;
+  // reshuffle (a few tries) if we happen to land on exactly the same set as last visit
+  for (let tries = 0; tries < 10; tries++) {
+    pick = shuffle(BOOKS).slice(0, SHOW_COUNT);
+    key = pick.map((b) => b.href).sort().join('|');
+    if (key !== last) break;
+  }
+  try { localStorage.setItem('landing-books', key); } catch (e) {}
+  return pick;
+}
+
+const SHOWN_BOOKS = pickBooks();
 
 // Where each book floats (fractions of the space under the header: x = left to right, y = top to bottom)
 const SLOTS = [
-  [0.14, 0.22], [0.70, 0.16], [0.88, 0.58], [0.12, 0.70],
-  [0.40, 0.84], [0.32, 0.10], [0.90, 0.28], [0.68, 0.84],
+  // evenly spread, no two books in the same row or column
+  [0.23, 0.17], [0.86, 0.19], [0.70, 0.34], [0.46, 0.45],
+  [0.84, 0.69], [0.22, 0.86], [0.11, 0.52], [0.54, 0.79],
 ];
 
 // ---------- Settings you can tweak ----------
-const SPACING = 20;                    // distance between arrows (px). Bigger = fewer arrows
-const ARROW_SIZE = 0.85;               // arrow length as a fraction of SPACING
-const ARROW_COLOR = 'rgba(88, 82, 74, 0.5)'; // faded warm graphite, like pencil on an old map
+const SPACING = 24;                    // distance between arrows (px). Bigger = fewer arrows
+const ARROW_SIZE = 0.9;               // arrow length as a fraction of SPACING
+const ARROW_COLOR = 'rgba(58, 54, 50, 0.5)'; // faded warm graphite, like pencil on an old map
 const LINE_WIDTH = 1.2;
+const HEAD_LENGTH = 0.4;              // length of the arrow head barbs, as a fraction of the arrow
+const HEAD_SPREAD = 0.3;               // how wide the head opens (radians; 0.5 is about 29 degrees)
+const WOBBLE = 0.1;                   // how bowed and uneven the hand-drawn arrows are (0 = perfectly straight)
 const MOUSE_RADIUS = 150;              // reach of the mouse's push (px)
 const HOLE = 0.5;                     // clear space around the mouse, 0 to 0.5 (lower = arrows bunch up less)
 const BOOK_MARGIN = 0;                // extra room around each book (px), part of its spiral eye
@@ -68,7 +105,9 @@ const style = document.createElement('style');
 style.textContent = `
   #books { position: fixed; inset: 0; z-index: 5; pointer-events: none; overflow: hidden; }
   .book { position: absolute; left: 0; top: 0; display: block; width: clamp(70px, 8vw, 130px);
-          pointer-events: auto; will-change: transform; }
+          pointer-events: auto; will-change: transform;
+          cursor: grab; touch-action: none; -webkit-user-drag: none; user-select: none; }
+  .book.dragging { cursor: grabbing; z-index: 1; }
   .book img { display: block; width: 100%; height: auto; user-select: none; -webkit-user-drag: none; }
   .book:hover, .book:focus-visible { outline: 2px solid #c03910; outline-offset: 3px; }
   .book.no-image { aspect-ratio: 2 / 3; display: flex; align-items: center; justify-content: center;
@@ -81,7 +120,7 @@ const layer = document.createElement('div');
 layer.id = 'books';
 document.body.appendChild(layer);
 
-const books = BOOKS.map((b, i) => {
+const books = SHOWN_BOOKS.map((b, i) => {
   const a = document.createElement('a');
   a.className = 'book';
   a.href = b.href;
@@ -97,9 +136,60 @@ const books = BOOKS.map((b, i) => {
     measureBooks();
   });
   a.appendChild(img);
+  a.draggable = false; // use our own dragging, not the browser's "drag a link" behaviour
   layer.appendChild(a);
-  return { el: a, slot: SLOTS[i % SLOTS.length], ph: i * 2.1, w: 0, h: 0, clear: 0, x: 0, y: 0 };
+  const book = { el: a, slot: SLOTS[i % SLOTS.length].slice(), ph: i * 2.1, w: 0, h: 0, clear: 0, x: 0, y: 0 };
+  makeDraggable(book);
+  return book;
 });
+
+// ---------- Dragging books ----------
+// Press and move a book to drag it; it stays where you drop it (until the page is reloaded).
+// A press without moving is still a normal click that opens the book in the archive.
+const DRAG_START = 6; // px the pointer must move before a press counts as a drag
+
+function makeDraggable(book) {
+  const a = book.el;
+  let press = null;   // where the press started, while the button is held
+  let moved = false;  // true once this press turned into a drag
+
+  a.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    press = { x: e.clientX, y: e.clientY, grabX: e.clientX - book.x, grabY: e.clientY - book.y };
+    moved = false;
+    a.setPointerCapture(e.pointerId);
+  });
+
+  a.addEventListener('pointermove', (e) => {
+    if (!press) return;
+    if (!moved && Math.hypot(e.clientX - press.x, e.clientY - press.y) < DRAG_START) return;
+    moved = true;
+    book.dragging = true;
+    book.dragX = e.clientX - press.grabX;
+    book.dragY = e.clientY - press.grabY;
+    a.classList.add('dragging');
+  });
+
+  function release() {
+    if (!press) return;
+    press = null;
+    if (!book.dragging) return;
+    // turn the drop point into the book's new home spot, so its gentle drift carries on from there
+    const tb = reduceMotion ? 0 : performance.now() * 0.001;
+    const areaH = height - headerBottom;
+    book.slot[0] = (book.x - Math.sin(tb * 0.6 + book.ph) * BOOK_DRIFT) / width;
+    book.slot[1] = (book.y - headerBottom - Math.cos(tb * 0.5 + book.ph) * BOOK_DRIFT * 0.8) / areaH;
+    book.dragging = false;
+    a.classList.remove('dragging');
+  }
+  a.addEventListener('pointerup', release);
+  a.addEventListener('pointercancel', release);
+
+  // after a drag, swallow the click so dropping a book doesn't open the archive
+  a.addEventListener('click', (e) => {
+    if (moved) { e.preventDefault(); moved = false; }
+  });
+}
 
 function measureBooks() {
   for (const b of books) {
@@ -113,9 +203,16 @@ function moveBooks(time) {
   const tb = reduceMotion ? 0 : time * 0.001;
   const areaH = height - headerBottom; // the space under the header
   for (const b of books) {
-    b.x = b.slot[0] * width + Math.sin(tb * 0.6 + b.ph) * BOOK_DRIFT;
-    b.y = headerBottom + b.slot[1] * areaH + Math.cos(tb * 0.5 + b.ph) * BOOK_DRIFT * 0.8;
-    // never let a book slide up under the header or off the bottom
+    if (b.dragging) { // follows the pointer while being dragged
+      b.x = b.dragX;
+      b.y = b.dragY;
+    } else {
+      b.x = b.slot[0] * width + Math.sin(tb * 0.6 + b.ph) * BOOK_DRIFT;
+      b.y = headerBottom + b.slot[1] * areaH + Math.cos(tb * 0.5 + b.ph) * BOOK_DRIFT * 0.8;
+    }
+    // never let a book go off the sides, up under the header, or off the bottom
+    b.x = Math.max(b.x, b.w / 2 + 4);
+    b.x = Math.min(b.x, width - b.w / 2 - 4);
     b.y = Math.max(b.y, headerBottom + b.h / 2 + 12);
     b.y = Math.min(b.y, height - b.h / 2 - 12);
     b.el.style.transform = `translate(${b.x - b.w / 2}px, ${b.y - b.h / 2}px)`;
@@ -233,23 +330,38 @@ function resize() {
   }
 }
 
-function addArrow(x, y, a, len) {
+// One hand-drawn arrow: a slightly bowed pencil shaft and an open V head.
+// r (0 to 1) is this arrow's own random number, so no two arrows are drawn exactly alike.
+function addArrow(x, y, a, len, r) {
   const c = Math.cos(a);
   const s = Math.sin(a);
   const half = len / 2;
-  const headLen = len * 0.34;
-  const headHalf = len * 0.15;
-  const bx = x + c * (half - headLen); // where the head starts
-  const by = y + s * (half - headLen);
 
-  // shaft (stroked)
-  ctx.moveTo(x - c * half, y - s * half);
-  ctx.lineTo(bx, by);
-  // small solid triangle head (filled)
-  ctx.moveTo(x + c * half, y + s * half);
-  ctx.lineTo(bx - s * headHalf, by + c * headHalf);
-  ctx.lineTo(bx + s * headHalf, by - c * headHalf);
-  ctx.closePath();
+  const tailX = x - c * half;
+  const tailY = y - s * half;
+  const tipX = x + c * half;
+  const tipY = y + s * half;
+
+  // shaft: bowed a little to one side, like a quick stroke of the pencil
+  const bow = (r - 0.5) * 2 * len * WOBBLE;
+  const ctrlX = x - s * bow;
+  const ctrlY = y + c * bow;
+  ctx.moveTo(tailX, tailY);
+  ctx.quadraticCurveTo(ctrlX, ctrlY, tipX, tipY);
+
+  // the head follows the direction the shaft is travelling as it arrives at the tip
+  const tip = Math.atan2(tipY - ctrlY, tipX - ctrlX);
+
+  // two barbs that are never quite equal in length or angle
+  const r2 = (r * 7.31) % 1;
+  const lenA = len * HEAD_LENGTH * (0.85 + 0.3 * r2);
+  const lenB = len * HEAD_LENGTH * (1.15 - 0.3 * r2);
+  const spreadA = HEAD_SPREAD * (0.9 + 0.2 * r);
+  const spreadB = HEAD_SPREAD * (1.1 - 0.2 * r);
+
+  ctx.moveTo(tipX + Math.cos(tip + Math.PI - spreadA) * lenA, tipY + Math.sin(tip + Math.PI - spreadA) * lenA);
+  ctx.lineTo(tipX, tipY);
+  ctx.lineTo(tipX + Math.cos(tip + Math.PI + spreadB) * lenB, tipY + Math.sin(tip + Math.PI + spreadB) * lenB);
 }
 
 // ---------- Drawing ----------
@@ -259,6 +371,7 @@ function render(time) {
   ctx.strokeStyle = ARROW_COLOR;
   ctx.lineWidth = LINE_WIDTH;
   ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
   ctx.beginPath();
 
   moveBooks(time);
@@ -301,11 +414,9 @@ function render(time) {
     // arrows shrink where they get crowded or deep in an eye, so they don't stick together
     const len = SPACING * ARROW_SIZE * (0.85 + 0.3 * r) * (1 - 0.5 * p.infl) * (1 - EYE_SHRINK * eye);
     if (len < 2) continue;
-    addArrow(posX[k], posY[k], angle[k], len);
+    addArrow(posX[k], posY[k], angle[k], len, r);
   }
-  ctx.fillStyle = ARROW_COLOR;
-  ctx.fill();
-  ctx.stroke();
+  ctx.stroke(); // open lines only, so there is nothing to fill
 }
 
 function loop(time) {

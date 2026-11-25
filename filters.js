@@ -1,3 +1,7 @@
+// Used on archive.html AND collaborators.html.
+// On the collaborators page the filters are roles (artist, writer, ...),
+// and a letter is hidden when none of its names match.
+//
 // Archive filters (multi-select): click filters to switch them on or off.
 // An entry is shown if it belongs to ANY of the chosen filters.
 // "all" shows everything; choosing it clears the other filters.
@@ -22,6 +26,14 @@ function render() {
     const show = chosen.has('all') || categories.some((c) => chosen.has(c));
     entry.style.display = show ? '' : 'none';
     if (!show) entry.classList.remove('open'); // close hidden entries
+  });
+
+  // 3. (Collaborators page) hide a letter when none of its names are shown
+  document.querySelectorAll('.letter-group').forEach((group) => {
+    const anyShown = [...group.querySelectorAll('.entry')].some(
+      (entry) => entry.style.display !== 'none'
+    );
+    group.style.display = anyShown ? '' : 'none';
   });
 }
 

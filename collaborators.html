@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>O.S - Collaborators</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="filters.js" defer></script>
 
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -14,16 +15,169 @@
 
 <body>
 
-  <header>
-  <h1><a href="OS.html">occasionally sourced</a></h1>    <hr>
-    <nav>
-      <ul>
-        <li><a href="archive.html">archive</a></li>
-        <li><a href="events.html">events</a></li>
-        <li><a href="#collaborators.html"class="active">collaborators</a></li>
-        <li><a href="about.html">about</a></li>
+<header>
+  <h1><a href="index.html">occasionally sourced</a></h1>
+  <hr>
+  <nav>
+    <ul>
+      <li><a href="archive.html">archive</a></li>
+      <li><a href="events.html">events</a></li>
+      <li><a href="collaborators.html" class="active">collaborators</a></li>
+      <li><a href="about.html">about</a></li>
       </ul>
     </nav>
   </header>
 
   <div class="layout">
+
+<!-- LEFT SIDE -->
+  <aside class="side left">
+    <h2>collaborators</h2>
+    <p>people who contribute to the <span class="brand-name-small">o.s</span> archive and facilitate this project so it can moves in the right direction. </p>
+
+    <h2>filters</h2>
+    <!-- data-filter must match a word in each person's data-category -->
+    <ul class="filters">
+      <li><a href="#" data-filter="all">all</a></li>
+      <li><a href="#" data-filter="artist">artist</a></li>
+      <li><a href="#" data-filter="collective">collective</a></li>
+      <li><a href="#" data-filter="designer">designer</a></li>
+      <li><a href="#" data-filter="distributor">distributor</a></li>
+      <li><a href="#" data-filter="editor">editor</a></li>
+      <li><a href="#" data-filter="photographer">photographer</a></li>
+      <li><a href="#" data-filter="publisher">publisher</a></li>
+      <li><a href="#" data-filter="studio-press">studio/press</a></li>
+      <li><a href="#" data-filter="translator">translator</a></li>
+      <li><a href="#" data-filter="writer">writer</a></li>
+    </ul>
+</aside>
+
+<!-- RIGHT SIDE -->
+<!-- Alphabetical list. Each letter is a .letter-group; each name is an .entry.person.
+     data-category = the roles used by the filters (artist, writer, designer, photographer, editor,
+     publisher, collective, studio-press, translator, distributor), separated by spaces.
+     The id on each person must match the link on the archive page, e.g. collaborators.html#ngoc-vo -->
+ <main class="side right">
+
+  <section class="letter-group">
+    <h3 class="letter">A</h3>
+
+    <div class="entry person" id="artificial-flavors-press" data-category="publisher studio-press">
+      <div><span class="title">artificial flavors press</span></div>
+      <div class="details">
+        <div class="desc">𝓪𝓻𝓽𝓲𝓯𝓲𝓬𝓲𝓪𝓵 𝓯𝓵𝓪𝓿𝓸𝓻𝓼 is a Saigonese home-based Risograph printing press run by <a class="name-link" href="#ngoc-vo">Ngọc Võ</a>.
+          The press focuses fully on creating zines, art prints, and collaborative projects that cooperate Risograph with other art practices to translate subconscious fragments of everyday human interaction and observation into visual explorations and sensory experiences.
+          <br><br>
+          Published: <a class="name-link" href="archive.html#bao-boc">Bao Bọc</a>, <a class="name-link" href="archive.html#i-hate-the-fact-that">i hate the fact that</a>, <a class="name-link" href="archive.html#no-ghost-no-shell">No Ghost No Shell</a>, <a class="name-link" href="archive.html#pandora-of-our-beloved-sea">Pandora of Our Beloved Sea</a>
+          <br>
+          <a class="name-link" href="https://artificial-flavors.com/" target="_blank" rel="noopener">artificial-flavors.com ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="letter-group">
+    <h3 class="letter">C</h3>
+
+    <div class="entry person" id="cong-danh" data-category="photographer">
+      <div><span class="title">Công Danh</span></div>
+      <div class="details">
+        <div class="desc">Description coming soon.
+          <br><br>
+          Zines: <a class="name-link" href="archive.html#bao-boc">Bao Bọc</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="letter-group">
+    <h3 class="letter">N</h3>
+
+    <div class="entry person" id="ngoc-vo" data-category="artist writer designer publisher">
+      <div><span class="title">Ngọc Võ</span></div>
+      <div class="details">
+        <div class="desc">Ngoc Vo was a co-founder and manager of WEDOGOOD - a design and Risograph studio based in Saigon, Vietnam from 2020 to 2026.
+          Along her six year journey practicing Risograph printing, she is now shifting her focus on zine making and independent publishing at <a class="name-link" href="#artificial-flavors-press">"𝓪𝓻𝓽𝓲𝓯𝓲𝓬𝓲𝓪𝓵 𝓯𝓵𝓪𝓿𝓸𝓻𝓼 𝓹𝓻𝓮𝓼𝓼"</a>.
+          <br><br>
+          Zines: <a class="name-link" href="archive.html#i-hate-the-fact-that">i hate the fact that</a>, <a class="name-link" href="archive.html#pandora-of-our-beloved-sea">Pandora of Our Beloved Sea</a>, <a class="name-link" href="archive.html#reclaiming-our-digital-land">Reclaiming Our Digital Land</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="letter-group">
+    <h3 class="letter">Q</h3>
+
+    <div class="entry person" id="quang-anh" data-category="artist writer">
+      <div><span class="title">Quang Anh</span></div>
+      <div class="details">
+        <div class="desc">Description coming soon.
+          <br><br>
+          Zines: <a class="name-link" href="archive.html#reclaiming-our-digital-land">Reclaiming Our Digital Land</a>, <a class="name-link" href="archive.html#spellshaper">Spellshaper</a>, <a class="name-link" href="archive.html#out-of-time">Out of Time</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="letter-group">
+    <h3 class="letter">S</h3>
+
+    <div class="entry person" id="spencer-nam-nguyen" data-category="artist writer">
+      <div><span class="title">Spencer Nam Nguyen</span></div>
+      <div class="details">
+        <div class="desc">Description coming soon.
+          <br><br>
+          Zines: <a class="name-link" href="archive.html#riso-obscura">Riso Obscura</a>, <a class="name-link" href="archive.html#please-dont-look-at-me">Please Don't Look at Me</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="letter-group">
+    <h3 class="letter">T</h3>
+
+    <div class="entry person" id="tau-hu-ky-collective" data-category="collective publisher">
+      <div><span class="title">Tàu Hủ Ky Collective</span></div>
+      <div class="details">
+        <div class="desc">Description coming soon.
+          <br><br>
+          Published: <a class="name-link" href="archive.html#reclaiming-our-digital-land">Reclaiming Our Digital Land</a>, <a class="name-link" href="archive.html#spellshaper">Spellshaper</a>, <a class="name-link" href="archive.html#out-of-time">Out of Time</a>, <a class="name-link" href="archive.html#riso-obscura">Riso Obscura</a>, <a class="name-link" href="archive.html#please-dont-look-at-me">Please Don't Look at Me</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="letter-group">
+    <h3 class="letter">V</h3>
+
+    <div class="entry person" id="vu-dieu-huong" data-category="writer">
+      <div><span class="title">Vũ Diệu Hương</span></div>
+      <div class="details">
+        <div class="desc">Description coming soon.
+          <br><br>
+          Zines: <a class="name-link" href="archive.html#no-ghost-no-shell">No Ghost No Shell</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="letter-group">
+    <h3 class="letter">Y</h3>
+
+    <div class="entry person" id="yui-nguyen" data-category="artist">
+      <div><span class="title">Yui Nguyễn</span></div>
+      <div class="details">
+        <div class="desc">Description coming soon.
+          <br><br>
+          Zines: <a class="name-link" href="archive.html#pandora-of-our-beloved-sea">Pandora of Our Beloved Sea</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+</div>
+
+</body>
+</html>

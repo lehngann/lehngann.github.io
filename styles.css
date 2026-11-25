@@ -29,6 +29,7 @@ body {
   font-variation-settings: "MONO" 100;
   font-size: clamp(0.875rem, 0.7rem + 0.4vw, 1.125rem); /* body text: min, fluid, max */
   font-weight: bold;
+  line-height: 1.3;
   display: flex;
   flex-direction: column;
   overflow: hidden; /* the page itself never scrolls */
@@ -99,7 +100,7 @@ nav a {
 /* Highlight for the current page */
 nav a.active,
 nav a:hover {
-  color: #c03910
+  text-decoration: underline;
 }
 
 /* ---------- Two-sided layout (Archive + About) ---------- */
@@ -107,7 +108,7 @@ nav a:hover {
   flex: 1;
   min-height: 0; /* lets the sides scroll instead of growing */
   display: grid;
-  grid-template-columns: 0.5fr 1.5fr;
+  grid-template-columns: 0.4fr 1.6fr;
 }
 
 .side {
@@ -235,11 +236,58 @@ nav a:hover {
   max-width: 60ch;
 }
 
+/* ---------- Clickable names (archive → collaborators, and back) ---------- */
+.name-link {
+  color: inherit;
+  text-decoration: underline;
+}
+.name-link:hover {
+  text-decoration: underline;
+}
+
+/* Archive: Creator / Publisher names without underline
+   (Collaborators rows are .entry.person, so they keep the underline) */
+.entry:not(.person) .name-link {
+  text-decoration: none;
+}
+.entry:not(.person) .name-link:hover {
+  text-decoration: underline; /* underline only on hover */
+}
+
+/* ---------- Collaborators: alphabetical list ---------- */
+.letter-group {
+  padding-top: 24px;
+}
+
+.letter {
+  margin: 0;
+  font-size: 1em;
+  font-weight: normal;
+}
+
+/* one full-width row per name; the faint line comes from .entry's
+   border-bottom, so it sits after every name but never under the letter */
+.person {
+  grid-template-columns: 1fr;
+}
+
+/* collaborator descriptions run across the whole right side (the side's own padding still applies) */
+.person .desc {
+  max-width: none;
+  padding-right: 24px;
+}
+
 /* ---------- Brand name inside the About paragraph ---------- */
 .brand-name {
   font-family: "Beth Ellen", cursive;
   font-weight: 500;
   font-size: 1.5em;
+}
+
+.brand-name-small {
+  font-family: "Beth Ellen", cursive;
+  font-weight: 500;
+  font-size: 1.3em;
 }
 
 /* ---------- Interactive screens ---------- */
